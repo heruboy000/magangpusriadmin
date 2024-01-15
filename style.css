@@ -1,0 +1,29 @@
+/* Navbar */
+
+
+/* Jumbotron */
+.jumbotron {
+    background-image: url(img/Pusri.webp);
+    background-size: cover;
+    height: 640px;
+    
+}
+
+/* DESKTOP VERSION */
+@media (min-width: 992px) {
+    .nav-link {
+        text-transform: uppercase;
+        margin-right: 30px;
+    }
+
+
+    .nav-link:hover::after {
+        content: '';
+        display: block;
+        border-bottom: 3px solid #0B63DC;
+        width: 100%;
+        padding-bottom: 5px;
+        margin-bottom: -8px;
+    }
+}
+
