@@ -175,7 +175,7 @@ if (isset($_POST["simpan"])) {
     // Handle file upload
     $foto_ktm = $_FILES["foto_ktm"]["name"];
     $foto_ktm_tmp = $_FILES["foto_ktm"]["tmp_name"];
-    move_uploaded_file($foto_ktm_tmp, "../upload/" . $foto_ktm);
+    move_uploaded_file($foto_ktm_tmp, "upload/" . $foto_ktm);
 
     
 
@@ -183,8 +183,15 @@ if (isset($_POST["simpan"])) {
                 VALUES('$idangkatan','$idakun','$nama','$jeniskelamin','$semester','$jurusan','$jenjang','$email','$alamat','$nohp','$foto_ktm','$tanggalmasuk','$tanggalkeluar')";
     $koneksi->query($sql) or die(mysqli_error($koneksi));
 
-    echo "<script>alert('Data berhasil di tambah')</script>";
-    echo "<script>location='mahasiswadaftar.php';</script>";
+    if($sql){
+        
+        echo "<script>alert('Data berhasil di tambah')</script>";
+        echo "<script>location='mahasiswadaftar.php';</script>";
+    }else{
+        echo "<script>alert('Data gagal di tambah Karena Data sudah terisi')</script>";
+        echo "<script>location='mahasiswadaftar.php';</script>";
+    }
+
    
 
 

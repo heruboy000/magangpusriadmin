@@ -3,6 +3,10 @@ include 'koneksi.php'; ?>
 <?php
 $ambil = $koneksi->query("SELECT * FROM mahasiswa WHERE idmahasiswa='$_GET[id]'");
 $data = $ambil->fetch_assoc();
+
+
+$sql = "select * from akun";
+$result = mysqli_query($koneksi,$sql);
 ?>
 <div class="row">
     <div class="col-md-12 mb-4">
@@ -12,9 +16,15 @@ $data = $ambil->fetch_assoc();
             </div>
             <div class="card-body">
                 <form method="post" class="form-horizontal" enctype="multipart/form-data">
-                    <div class="form-group">
-                        <label class="control-label">NIM</label>
-                        <input type="number" inputmode="numerics" name="nim" class="form-control" value="<?= $data['nim'] ?>" required>
+                <div class="form-group" >
+                        <label class="control-label">Data akun</label>
+                        <select type="text" name="data" id="data"  class="form-control" required>
+                            <option value="">-- Pilih --</option>
+                            <?php while($akun = mysqli_fetch_assoc($result)): ?>
+                            <option value="<?=$akun['idakun'] ?>"  <?= $data['idakun'] == $akun['idakun'] ? 'selected' : ''; ?>><?=$akun['nama'] ?></option>
+                            
+                            <?php endwhile; ?> 
+                        </select>
                     </div>
                     <div class="form-group">
                         <label class="control-label">Nama</label>
@@ -33,12 +43,12 @@ $data = $ambil->fetch_assoc();
                         <input type="text" name="semester" class="form-control" value="<?= $data['semester'] ?>" required>
                     </div>
                     <div class="form-group">
-                        <label class="control-label">Jurusan</label>
-                        <input type="text" name="jurusan" class="form-control" value="<?= $data['jurusan'] ?>" required>
+                        <label class="control-label">Jenjang</label>
+                        <input type="text" name="jenjang" class="form-control" value="<?= $data['jenjang'] ?>" required>
                     </div>
                     <div class="form-group">
-                        <label class="control-label">Prodi</label>
-                        <input type="text" name="prodi" class="form-control" value="<?= $data['prodi'] ?>" required>
+                        <label class="control-label">Jurusan</label>
+                        <input type="text" name="jurusan" class="form-control" value="<?= $data['jurusan'] ?>" required>
                     </div>
                     <div class="form-group">
                         <label class="control-label">Tahun Angkatan</label>

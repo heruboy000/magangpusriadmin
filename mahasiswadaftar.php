@@ -1,5 +1,12 @@
 <?php include 'header.php';
-include 'koneksi.php'; ?>
+include 'koneksi.php'; 
+
+
+$sql = "select * from mahasiswa as m inner join angkatan as a on m.idangkatan = a.idangkatan ";
+$hasil = mysqli_query($koneksi,$sql);
+
+
+?>
 <div class="d-sm-flex align-items-center justify-content-between mb-4">
     <a href="mahasiswatambah.php" class="btn btn-sm btn-primary shadow-sm float-right pull-right"><i class="fas fa-plus fa-sm text-white-50"></i> Tambah Mahasiswa</a>
 </div>
@@ -15,13 +22,14 @@ include 'koneksi.php'; ?>
                         <thead class="bg-primary text-white text-center">
                             <tr>
                                 <th width="10px">No.</th>
-                                <th>NIM</th>
+                                
                                 <th>Nama Mahasiswa</th>
                                 <th>Jenis Kelamin</th>
                                 <th>Semester</th>
                                 <th>Jurusan</th>
-                                <th>Prodi</th>
+                                <th>Jenjang</th>
                                 <th>Nomor HP</th>
+                                <th>angkatan</th>
                                 <th>Email</th>
                                 <th>Foto KTM</th>
                                 <th>Tanggal Masuk Magang</th>
@@ -32,17 +40,20 @@ include 'koneksi.php'; ?>
                         </thead>
                         <tbody>
                             <?php $nomor = 1; ?>
-                            <?php $ambil = $koneksi->query("SELECT*FROM mahasiswa order by idmahasiswa desc"); ?>
+                            <?php $ambil = $koneksi->query("select * from mahasiswa as m inner join angkatan as a on m.idangkatan = a.idangkatan order by idmahasiswa desc"); ?>
                             <?php while ($pecah = $ambil->fetch_assoc()) { ?>
                                 <tr>
                                     <td class="text-center"><?php echo $nomor; ?></td>
-                                    <td><?php echo $pecah['nim'] ?></td>
+                                    
                                     <td><?php echo $pecah['nama'] ?></td>
                                     <td><?php echo $pecah['jeniskelamin'] ?></td>
                                     <td><?php echo $pecah['semester'] ?></td>
                                     <td><?php echo $pecah['jurusan'] ?></td>
-                                    <td><?php echo $pecah['prodi'] ?></td>
+                                    <td><?php echo $pecah['jenjang'] ?></td>
                                     <td><?php echo $pecah['nohp'] ?></td>
+                                  
+                                    <td><?php echo $pecah['tahun'] ?></td>
+                                   
                                     <td><?php echo $pecah['email'] ?></td>
                                     <td><img src='upload/<?= $pecah['foto_ktm'] ?>' alt='Foto KTM' style='max-width: 100px; max-height: 100px;'></td>
                                     <td><?php echo tanggal($pecah['tanggalmasuk']) ?></td>
