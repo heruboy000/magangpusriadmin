@@ -3,19 +3,20 @@ include 'koneksi.php'; ?>
 <?php
 $ambil = $koneksi->query("SELECT * FROM mahasiswa WHERE idmahasiswa='$_GET[id]'");
 $data = $ambil->fetch_assoc();
+
+
+$sql = "select * from akun";
+$result = mysqli_query($koneksi,$sql);
 ?>
 <div class="row">
     <div class="col-md-12 mb-4">
         <div class="card shadow mb-4">
             <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                <h6 class="m-0 font-weight-bold text-primary">Ubah mahasiswa</h6>
+                <h6 class="m-0 font-weight-bold text-primary">Edit mahasiswa</h6>
             </div>
             <div class="card-body">
                 <form method="post" class="form-horizontal" enctype="multipart/form-data">
-                    <div class="form-group">
-                        <label class="control-label">NIM</label>
-                        <input type="number" inputmode="numerics" name="nim" class="form-control" value="<?= $data['nim'] ?>" required>
-                    </div>
+           
                     <div class="form-group">
                         <label class="control-label">Nama</label>
                         <input type="text" name="nama" class="form-control" value="<?= $data['nama'] ?>" required>
@@ -33,12 +34,12 @@ $data = $ambil->fetch_assoc();
                         <input type="text" name="semester" class="form-control" value="<?= $data['semester'] ?>" required>
                     </div>
                     <div class="form-group">
-                        <label class="control-label">Jurusan</label>
-                        <input type="text" name="jurusan" class="form-control" value="<?= $data['jurusan'] ?>" required>
+                        <label class="control-label">Jenjang</label>
+                        <input type="text" name="jenjang" class="form-control" value="<?= $data['jenjang'] ?>" required>
                     </div>
                     <div class="form-group">
-                        <label class="control-label">Prodi</label>
-                        <input type="text" name="prodi" class="form-control" value="<?= $data['prodi'] ?>" required>
+                        <label class="control-label">Jurusan</label>
+                        <input type="text" name="jurusan" class="form-control" value="<?= $data['jurusan'] ?>" required>
                     </div>
                     <div class="form-group">
                         <label class="control-label">Tahun Angkatan</label>
@@ -90,13 +91,13 @@ $data = $ambil->fetch_assoc();
 <?php include 'footer.php'; ?>
 <?php
 if (isset($_POST["simpan"])) {
-    $nim = $_POST['nim'];
-    $nama = $_POST['nama'];
+    $nama =$_POST['nama'];
+   $jenjang = $_POST['jenjang'];
     $semester = $_POST['semester'];
     $jeniskelamin = $_POST['jeniskelamin'];
     $idangkatan = $_POST['idangkatan'];
     $jurusan = $_POST['jurusan'];
-    $prodi = $_POST['prodi'];
+  
     $email = $_POST['email'];
     $alamat = $_POST['alamat'];
     $nohp = $_POST['nohp'];
@@ -108,7 +109,7 @@ if (isset($_POST["simpan"])) {
         // Handle file upload
         $foto_ktm = $_FILES["foto_ktm_update"]["name"];
         $foto_ktm_tmp = $_FILES["foto_ktm_update"]["tmp_name"];
-        move_uploaded_file($foto_ktm_tmp, "../upload/" . $foto_ktm);
+        move_uploaded_file($foto_ktm_tmp, "upload/" . $foto_ktm);
     } else {
         // No new image uploaded, retain the old image
         $queryImage = "SELECT foto_ktm FROM mahasiswa WHERE idmahasiswa='$_GET[id]'";
@@ -118,12 +119,13 @@ if (isset($_POST["simpan"])) {
     }
     $sql = "UPDATE mahasiswa SET
                 idangkatan = '$idangkatan',
-                nim = '$nim',
+                
                 nama = '$nama',
                 jeniskelamin = '$jeniskelamin',
                 semester = '$semester',
+                jenjang = '$jenjang',
                 jurusan = '$jurusan',
-                prodi = '$prodi',
+                
                 email = '$email',
                 alamat = '$alamat',
                 nohp = '$nohp',

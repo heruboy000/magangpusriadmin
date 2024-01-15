@@ -16,16 +16,7 @@ $result = mysqli_query($koneksi,$sql);
             </div>
             <div class="card-body">
                 <form method="post" class="form-horizontal" enctype="multipart/form-data">
-                <div class="form-group" >
-                        <label class="control-label">Data akun</label>
-                        <select type="text" name="data" id="data"  class="form-control" required>
-                            <option value="">-- Pilih --</option>
-                            <?php while($akun = mysqli_fetch_assoc($result)): ?>
-                            <option value="<?=$akun['idakun'] ?>"  <?= $data['idakun'] == $akun['idakun'] ? 'selected' : ''; ?>><?=$akun['nama'] ?></option>
-                            
-                            <?php endwhile; ?> 
-                        </select>
-                    </div>
+           
                     <div class="form-group">
                         <label class="control-label">Nama</label>
                         <input type="text" name="nama" class="form-control" value="<?= $data['nama'] ?>" required>
@@ -100,13 +91,13 @@ $result = mysqli_query($koneksi,$sql);
 <?php include 'footer.php'; ?>
 <?php
 if (isset($_POST["simpan"])) {
-    $nim = $_POST['nim'];
-    $nama = $_POST['nama'];
+    $nama =$_POST['nama'];
+   $jenjang = $_POST['jenjang'];
     $semester = $_POST['semester'];
     $jeniskelamin = $_POST['jeniskelamin'];
     $idangkatan = $_POST['idangkatan'];
     $jurusan = $_POST['jurusan'];
-    $prodi = $_POST['prodi'];
+  
     $email = $_POST['email'];
     $alamat = $_POST['alamat'];
     $nohp = $_POST['nohp'];
@@ -128,12 +119,13 @@ if (isset($_POST["simpan"])) {
     }
     $sql = "UPDATE mahasiswa SET
                 idangkatan = '$idangkatan',
-                nim = '$nim',
+                
                 nama = '$nama',
                 jeniskelamin = '$jeniskelamin',
                 semester = '$semester',
+                jenjang = '$jenjang',
                 jurusan = '$jurusan',
-                prodi = '$prodi',
+                
                 email = '$email',
                 alamat = '$alamat',
                 nohp = '$nohp',
