@@ -6,7 +6,16 @@ include 'koneksi.php';
 ?>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
 <div class="row">
+    <?php
+    $sql = "select * from akun";
+    $result = mysqli_query($koneksi,$sql);
     
+    
+
+    
+    
+
+    ?>
 
     <div class="col-md-12 mb-4">
         <div class="card shadow mb-4">
@@ -15,23 +24,32 @@ include 'koneksi.php';
             </div>
             <div class="card-body">
                 <form method="post" class="form-horizontal" enctype="multipart/form-data">
-                  
-                    <!-- <div class="form-group">
+                <div class="form-group" >
+                        <label class="control-label">Data akun</label>
+                        <select type="text" name="data" id="data"  class="form-control" required>
+                            <option value="">-- Pilih --</option>
+                            <?php while($akun = mysqli_fetch_assoc($result)): ?>
+                            <option value="<?=$akun['idakun'] ?>"><?=$akun['nama'] ?></option>
+                            
+                            <?php endwhile; ?> 
+                        </select>
+                    </div>
+                    <div class="form-group">
                         <label class="control-label">Nama</label>
                         <input type="text" name="nama" class="form-control" required>
                     </div>
                     <div class="form-group">
                         <label class="control-label">Jenis Kelamin</label>
                         <select type="text" name="jeniskelamin" class="form-control" required>
-                            <option value=""></option>
+                            <option value="">-- Pilih --</option>
                             <option value="Laki-laki">Laki-laki</option>
                             <option value="Perempuan">Perempuan</option>
                         </select>
-                    </div> -->
+                    </div>
                     <div class="form-group" >
                         <label class="control-label">Jenjang Pendidikan</label>
                         <select type="text" name="jenjang" id="jenjang"  class="form-control" required>
-                            <option value=""></option>
+                            <option value="">-- Pilih --</option>
                             <option value="SMA">SMA/SMK</option>
                             <option value="perguruan">Perguruan Tinggi</option>
                         </select>
@@ -46,14 +64,14 @@ include 'koneksi.php';
                     </div>
                     <div class="form-group" id="semester">
                         <label class="control-label">Semester</label>
-                        <input type="text" name="semester" class="form-control" required>
+                        <input type="text" name="semester" class="form-control">
                     </div>
                     <div class="form-group">
                         <label class="control-label">Jurusan</label>
                         <input type="text" name="jurusan" class="form-control" required>
                     </div>
                    
-                    <!-- <div class="form-group">
+                    <div class="form-group">
                         <label class="control-label">Tahun Angkatan</label>
                         <select name="idangkatan" class="form-control" required>
                             <option value="">-- Pilih --</option>
@@ -88,7 +106,7 @@ include 'koneksi.php';
                     <div class="form-group">
                         <label class="control-label">Foto KTM</label>
                         <input type="file" name="foto_ktm" class="form-control">
-                    </div> -->
+                    </div>
                     <div class="col-md-12">
                         <div class="form-group">
                             <br>
@@ -116,14 +134,17 @@ include 'footer.php';
 $(document).ready(function(){
  $("#SMA").hide();
  $("#perguruan").hide();
+ $("#semester").closest("div").hide();
  $("#jenjang").on("change", function(){
    var v = $(this).val();
    if(v=="SMA"){
       $("#SMA").closest("div").show();
       $("#perguruan").closest("div").hide();
+      $("#semester").closest("div").hide();
     }else{
     $("#SMA").closest("div").hide();
     $("#perguruan").closest("div").show();
+    $("#semester").closest("div").show();
    } 
  });
  
@@ -133,14 +154,13 @@ $(document).ready(function(){
 
 <?php
 if (isset($_POST["simpan"])) {
-    
+    $idakun = $_POST['data'];
     $nama = $_POST['nama'];
     if ($_POST['sma'] == NULL){
         $jenjang = $_POST['perguruan'];
     }else{
         $jenjang = $_POST['sma'];
     }
-
     $semester = $_POST['semester'];
     $jeniskelamin = $_POST['jeniskelamin'];
     $idangkatan = $_POST['idangkatan'];
@@ -151,7 +171,7 @@ if (isset($_POST["simpan"])) {
     $nohp = $_POST['nohp'];
     $tanggalmasuk = $_POST['tanggalmasuk'];
     $tanggalkeluar = $_POST['tanggalkeluar'];
-    $password = '123456';
+  
     // Handle file upload
     $foto_ktm = $_FILES["foto_ktm"]["name"];
     $foto_ktm_tmp = $_FILES["foto_ktm"]["tmp_name"];
@@ -159,8 +179,8 @@ if (isset($_POST["simpan"])) {
 
     
 
-    $sql = "INSERT INTO mahasiswa(idangkatan,nim,nama,jeniskelamin,semester,jurusan,prodi,email,alamat,nohp,foto_ktm,tanggalmasuk,tanggalkeluar) 
-                VALUES('$idangkatan','$nim','$nama','$jeniskelamin','$semester','$jurusan','$prodi','$email','$alamat','$nohp','$foto_ktm','$tanggalmasuk','$tanggalkeluar')";
+    $sql = "INSERT INTO mahasiswa(idangkatan,idakun,nama,jeniskelamin,semester,jurusan,jenjang,email,alamat,nohp,foto_ktm,tanggalmasuk,tanggalkeluar) 
+                VALUES('$idangkatan','$idakun','$nama','$jeniskelamin','$semester','$jurusan','$jenjang','$email','$alamat','$nohp','$foto_ktm','$tanggalmasuk','$tanggalkeluar')";
     $koneksi->query($sql) or die(mysqli_error($koneksi));
 
     echo "<script>alert('Data berhasil di tambah')</script>";
